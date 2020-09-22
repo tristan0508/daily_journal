@@ -1,10 +1,10 @@
-const eventHub = document.querySelector('.mainbody');
+const eventHub = document.querySelector('.journalEntries');
 
 
 
 
 const dispatchStateChangeEvent = () => {
-    const newJournalRecorded = (new CustomEvent("journalStateChanged"))
+    const newJournalRecorded = (new CustomEvent("journalStateChange"))
 
     eventHub.dispatchEvent(newJournalRecorded)
 }
@@ -12,12 +12,12 @@ const dispatchStateChangeEvent = () => {
 let entry;
 
 export const useEntries = () => {
-    return entry.slice();
+    return [...entry];
 }
 
 
 export const saveJournalEntry = (newJournalEntry) => {
-fetch("http://localhost:8088/entries", {
+fetch("http://localhost:8080/entries", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -29,9 +29,19 @@ fetch("http://localhost:8088/entries", {
 
 }
 
+export const deleteEntry = (entryId) => {
+    fetch(`http://localhost:8080/entries/${entryId}`, {
+        method:"DELETE",
+        headers: {
+            "Conten-Type": "application/json"
+        }
+    })
+    .then(getEntries)
+    .then(dispatchStateChangeEvent)
+}
 
 export const getEntries = () => {
-    return fetch("http://localhost:8088/entries") 
+    return fetch("http://localhost:8080/entries?_expand=mood") 
         .then(response => response.json())  
         .then(entries => {
             entry = entries;

@@ -17,17 +17,34 @@ eventHub.addEventListener('click', event => {
         date: dateInput.value,
         concept: conceptInput.value,
         entry: entryInput.value,
-        mood: moodInput.value
+        moodId: parseInt(moodInput.value)
     }
     saveJournalEntry(newRecord);
     } 
     
 })
 
+let moods;
+
+const useMoods = () => {
+   return moods.slice();
+}
+
+const getMoods = () => {
+    return fetch("http://localhost:8080/moods")
+    .then(response => response.json())
+    .then(mood => {
+        moods = mood
+    });
+};
+
 
 
 export const JournalFormComponent = () => {
-    formComponent.innerHTML = `
+    getMoods()
+    .then(() =>{
+        let allMoods = useMoods()
+    return formComponent.innerHTML = `
     <h2>Daily Journal</h2>
     <form action="">
         <fieldset class="date">
@@ -45,11 +62,13 @@ export const JournalFormComponent = () => {
         <fieldset class="mood">
             <label for="mood">Mood for the day</label>
             <select name="mood" id="mood">
-                <option value="happy">😁"Happy"</option>
-                <option value="sad">😔"Sad"</option>
-                <option value="okay">😏"Okay"</option>
+              ${
+                 allMoods.map(mood => {
+                        return `<option value="${ mood.id }">${ mood.label }</option>`
+                    }).join("")
+              }
             </select>
         </fieldset>
-        <button id="record">Record Journal Entry</button>
+        <button type="button" id="record">Record Journal Entry</button>
     </form>`
-};
+})};
