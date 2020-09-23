@@ -11,19 +11,20 @@ body {
     grid-column: span 2 ;
     border: 3px solid black;
 }
-
+.head fieldset {
+    width: fit-content;
+    margin-bottom: 0.3125rem;
+}
 .mainbody {
     grid-row: 2 / 3;
     grid-column: 2 / 3; 
      
 }
-
 h2 {
     color: #067391;
     text-align: center;
     position: relative;
     font-size: 48px;
-    
 }
 
 .journalEntries {
@@ -37,7 +38,6 @@ footer {
     grid-column: span 2;
 }
 form {
-    
     max-width: 75%;
     height: auto;
     background-color: #067391;
@@ -47,9 +47,6 @@ form {
     position: relative;
     border: 2px solid black;
     left: 200px;;
-    
-    
-
 }
 fieldset {
     border: 2px solid black;

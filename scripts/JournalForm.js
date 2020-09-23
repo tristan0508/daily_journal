@@ -19,18 +19,21 @@ eventHub.addEventListener('click', event => {
         entry: entryInput.value,
         moodId: parseInt(moodInput.value)
     }
+    entryInput.value = ""
+    conceptInput.value = ""
+    dateInput.value = ""
+    moodInput.value = ""
     saveJournalEntry(newRecord);
     } 
-    
 })
 
 let moods;
 
-const useMoods = () => {
+export const useMoods = () => {
    return moods.slice();
 }
 
-const getMoods = () => {
+export const getMoods = () => {
     return fetch("http://localhost:8080/moods")
     .then(response => response.json())
     .then(mood => {
