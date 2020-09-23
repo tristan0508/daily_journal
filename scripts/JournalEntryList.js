@@ -19,9 +19,21 @@ export const EntryListComponent = () => {
     getEntries()
     .then(() => {
     const entries = useEntries()
-    console.log(entries)
    entryLog.innerHTML = entries.map(entry => {
        return JournalEntryComponent(entry)
     }).join("")
 })
+}
+
+export const journalFilter = (nameOfMood) => {
+    getEntries()
+    .then(() => {
+        const entries = useEntries()
+        let filteredEntries = entries.map(mood => {
+            if(mood.mood.label === nameOfMood){
+                return JournalEntryComponent(mood)
+            } 
+        }).join("")
+        entryLog.innerHTML = filteredEntries
+    })
 }
